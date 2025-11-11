@@ -1,6 +1,6 @@
 <?php
 
-function get_info($get_parameter): array|null
+function get_info($get_parameter): array
 {
     $ch = curl_init();
 
@@ -13,7 +13,7 @@ function get_info($get_parameter): array|null
 
     curl_close($ch);
 
-    if (strlen($html) === 0 || $http >= 400) {
+    if ($http >= 400) {
         throw new RuntimeException("HTTP code responded: $http");
     }
 
@@ -37,11 +37,10 @@ function get_info($get_parameter): array|null
 
             $return_array[$get_parameter] = $item_array;
         }
-        return $return_array;
     } else {
-        echo "There is no such currency as $get_parameter!";
-        return null;
+        $return_array[$get_parameter] = "Do not available on site";
     }
+    return $return_array;
 }
 
 try {
